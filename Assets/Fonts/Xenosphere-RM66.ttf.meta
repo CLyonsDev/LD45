@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: a9917f48976cbe34e858b14dc291a5e0
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: xenosphere
+  fontNames:
+  - xenosphere
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 858607bdebfaa76408348797ba0ca491, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
