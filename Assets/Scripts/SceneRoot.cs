@@ -13,20 +13,39 @@ public class SceneRoot : MonoBehaviour
     [SerializeField]
     private bool sceneIsActive = false;
 
+    [SerializeField]
+    private bool overrideCamera = false;
+    [SerializeField]
+    private Camera camToOverride;
+
 
     private void Awake()
     {
         GrabAllPropChildren();
+
+        if(overrideCamera == true)
+            camToOverride = GetComponentInChildren<Camera>();
+
+        if(sceneIsActive)
+        {
+            for (int i = 0; i < props.Count; i++)
+            {
+                Animator anim = props[i].GetComponent<Animator>();
+                anim.SetTrigger("start_grown");
+            }
+        }
     }
 
     public void StartScene()
     {
         GrowProps();
+        camToOverride.enabled = true;
     }
 
     public void StopScene()
     {
         ShrinkProps();
+        camToOverride.enabled = false;
     }
 
     public void ToggleScene()

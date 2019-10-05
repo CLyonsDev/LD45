@@ -5,8 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class TimedGameEvent
 {
-    public GameEvent gameEvent;     // The event that is raised (this can call anything from a scene change to a minor update)
+    public bool waitForEventBeforeProgressing = false;
     public float delayBeforeRaise;  // How long after the previous event is raised (in seconds) before this event is raised as well? 
+    public GameEvent gameEvent;     // The event that is raised (this can call anything from a scene change to a minor update)
     public AudioClip clip;          // May not use this, but could be a good way to trigger each scene's audio instead of having one massive clip.
 }
 
@@ -34,18 +35,25 @@ public class StoryTeller : MonoBehaviour
 
         if(StoryEvents.Count > 0)
         {
-            if(gameTimer >= StoryEvents[0].delayBeforeRaise)
+            if (gameTimer >= StoryEvents[0].delayBeforeRaise && StoryEvents[0].waitForEventBeforeProgressing == false)
             {
                 RaiseTimedGameEvent(0);
             }
         }
     }
 
+    public void ProgressStory()
+    {
+        if(StoryEvents[0].waitForEventBeforeProgressing == true)
+            RaiseTimedGameEvent(0);
+    }
+
     private void RaiseTimedGameEvent(int index)
     {
         TimedGameEvent e = StoryEvents[index];
-        e.gameEvent.Raise();
-        // e.clip.Play();
+
+        if (e.gameEvent != null)
+            e.gameEvent.Raise();
         if(e.clip != null)
             storytellerAudioSource.PlayOneShot(e.clip);
 
