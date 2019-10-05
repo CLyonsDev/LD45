@@ -15,7 +15,6 @@ public class SceneRoot : MonoBehaviour
 
     [SerializeField]
     private bool overrideCamera = false;
-    [SerializeField]
     private Camera camToOverride;
 
 
@@ -39,13 +38,15 @@ public class SceneRoot : MonoBehaviour
     public void StartScene()
     {
         GrowProps();
-        camToOverride.enabled = true;
+        if(overrideCamera)
+            camToOverride.enabled = true;
     }
 
     public void StopScene()
     {
         ShrinkProps();
-        camToOverride.enabled = false;
+        if(overrideCamera)
+            camToOverride.enabled = false;
     }
 
     public void ToggleScene()

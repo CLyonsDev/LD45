@@ -45,7 +45,15 @@ public class StoryTeller : MonoBehaviour
     public void ProgressStory()
     {
         if(StoryEvents[0].waitForEventBeforeProgressing == true)
+        {
+            Debug.Log("Riased story event.");
             RaiseTimedGameEvent(0);
+        }
+        else
+        {
+            Debug.Log("Called ProgressStory, but waitforevent is false!");
+            Debug.Log(StoryEvents[0].gameEvent.name);
+        }
     }
 
     private void RaiseTimedGameEvent(int index)

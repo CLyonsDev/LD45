@@ -8,11 +8,15 @@ public class P_Movement : MonoBehaviour
 
     private Rigidbody rb;
     public FloatReference moveSpeed;
+
+    private P_MouseLook mouseLookScript;
+    private bool canMove = true;
     //private float speed = 5f;
 
     // Start is called before the first frame update
     void Awake()
     {
+        mouseLookScript = GetComponentInChildren<P_MouseLook>();
         rb = GetComponent<Rigidbody>();
         PlayerInstance = this;
     }
@@ -20,15 +24,23 @@ public class P_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        if (canMove)
+        {
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
 
-        Vector3 forward = transform.forward * v;
-        Vector3 right = transform.right * h;
-        Vector3 final = (forward + right);
-        final = Vector3.ClampMagnitude(final, 1f);
+            Vector3 forward = transform.forward * v;
+            Vector3 right = transform.right * h;
+            Vector3 final = (forward + right);
+            final = Vector3.ClampMagnitude(final, 1f);
 
-        rb.MovePosition(transform.position + (final * moveSpeed.Value * Time.deltaTime));
+            rb.MovePosition(transform.position + (final * moveSpeed.Value * Time.deltaTime));
+        }
+    }
+
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
     }
 
     public void MovePlayerToLocation(Transform pos, bool alsoSetRotation = false)
@@ -37,24 +49,34 @@ public class P_Movement : MonoBehaviour
 
         if(alsoSetRotation)
         {
-            GetComponentInChildren<P_MouseLook>().EndLookAtTarget();
+            mouseLookScript.EndLookAtTarget();
             rb.MoveRotation(pos.rotation);
         }
     }
 
+    public void LockCamera()
+    {
+        mouseLookScript.SetMouseEnabled(false);
+    }
+
+    public void UnlockCamera()
+    {
+        mouseLookScript.SetMouseEnabled(true);
+    }
+
     public void ForcePlayerLookat(Transform target)
     {
-        GetComponentInChildren<P_MouseLook>().LookAtTarget(target);
+        mouseLookScript.LookAtTarget(target);
     }
 
     public void EndPlayerLookat()
     {
-        GetComponentInChildren<P_MouseLook>().EndLookAtTarget();
+        mouseLookScript.EndLookAtTarget();
     }
 
     public void EndPlayerLookatNoReturn()
     {
-        GetComponent<P_MouseLook>().EndLookatNoReturn();
+        mouseLookScript.EndLookatNoReturn();
     }
 
     public void TogglePlayerIsKinematic(int overrideValue = -1)
