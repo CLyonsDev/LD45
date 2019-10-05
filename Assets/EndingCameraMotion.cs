@@ -17,15 +17,6 @@ public class EndingCameraMotion : MonoBehaviour
         cam = GetComponent<Camera>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            StartCoroutine(SnapZoom());
-        }
-    }
-
     public void StartEndingCameraMotion()
     {
         //transform.parent.GetComponent<P_MouseLook>().SetMouseEnabled(false);
